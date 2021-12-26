@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TASK_2
 {
-    class Program
+    internal class Program
     {
         static void Main(string[] args)
         {
@@ -23,8 +19,6 @@ namespace TASK_2
             string scoreMeanFormated = scoreMean.ToString("#.##");
 
             Console.WriteLine($"Сумма баллов: {scoreSum} \nСреднее арифметическое баллов: {scoreMeanFormated}");
-
-            Console.ReadKey();
         }
     }
 }
