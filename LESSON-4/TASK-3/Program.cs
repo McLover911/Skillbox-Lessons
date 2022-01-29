@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace TASK_3
 {
@@ -24,7 +25,7 @@ namespace TASK_3
             {
                 entered = Console.ReadLine();
 
-                if (string.IsNullOrEmpty(entered) == false)
+                if (!string.IsNullOrEmpty(entered))
                 {
                     enteredNum = int.Parse(entered);
 
@@ -38,7 +39,7 @@ namespace TASK_3
                         Console.WriteLine("Введённое число больше загаданного. Повторите попытку:");
                         continue;
                     }
-                    else if (enteredNum == hiddenNum)
+                    else
                     {
                         Console.WriteLine("Вы отгадали число!");
                         break;
