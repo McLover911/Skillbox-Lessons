@@ -21,6 +21,7 @@ namespace TASK_2
             }
             Console.WriteLine(resultString);
         }
+
         static void Main(string[] args)
         {
             Console.WriteLine("Введите предложение:");
