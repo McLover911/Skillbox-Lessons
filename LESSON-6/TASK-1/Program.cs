@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 
 namespace TASK_1
 {
@@ -41,19 +42,36 @@ namespace TASK_1
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Введите идентификатор операции:" +
+            while (true)
+            {
+                Console.WriteLine("Введите идентификатор операции:" +
                               "\n1 - вывести данные на экран;" +
                               "\n2 — заполнить данные и добавить новую запись в конец файла.");
-            string operationID = Console.ReadLine();
+                string operationID = Console.ReadLine();
+
+                if (operationID == "1" && File.Exists("Сотрудники.txt"))
+                {
+                    DisplayData();
+                    break;
+                }
+                else if (operationID == "1" && !File.Exists("Сотрудники.txt"))
+                {
+                    Console.WriteLine("Файла не существует");
+                    break;
+                }
+                else if (operationID == "2")
+                {
+                    DataWrite();
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Идентификатор неверен");
+                    Thread.Sleep(1000);
+                    Console.WriteLine();
+                }
+            }
             
-            if (operationID == "1")
-            {
-                DisplayData();
-            }
-            else if (operationID == "2")
-            {
-                DataWrite();
-            }
         }
     }
 }
