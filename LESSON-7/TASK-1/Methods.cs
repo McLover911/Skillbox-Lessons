@@ -9,12 +9,12 @@ namespace TASK_1
 {
     internal class Methods
     {
-        private static string path = "Сотрудники.txt";
-        private static int fileLength = File.ReadAllLines(path).Length;
+        private static string _path = "Сотрудники.txt";
+        private static int _fileLength = File.ReadAllLines(_path).Length;
 
         public static void AddData()
         {
-            using (StreamWriter sw = new StreamWriter(path, true))
+            using (StreamWriter sw = new StreamWriter(_path, true))
             {
                 PersonalData pd = new PersonalData();
 
@@ -47,7 +47,7 @@ namespace TASK_1
 
         public static void DisplayData(string id)
         {
-            using (StreamReader sr = new StreamReader(path))
+            using (StreamReader sr = new StreamReader(_path))
             {
                 string line;
                 string[] substrings;
@@ -72,7 +72,7 @@ namespace TASK_1
 
             List<string> list = new List<string>();
 
-            using (StreamReader sr = new StreamReader(path))
+            using (StreamReader sr = new StreamReader(_path))
             {
                 string line;
                 string[] substrings;
@@ -88,7 +88,7 @@ namespace TASK_1
                 }
             }
 
-            using (StreamWriter sw = new StreamWriter(path, false))
+            using (StreamWriter sw = new StreamWriter(_path, false))
             {
                 sw.WriteLine(String.Join("\n", list));
             }
@@ -103,7 +103,7 @@ namespace TASK_1
 
             List<string> list = new List<string>();
 
-            using (StreamReader sr = new StreamReader(path))
+            using (StreamReader sr = new StreamReader(_path))
             {
                 string line;
                 string[] substrings;
@@ -140,7 +140,7 @@ namespace TASK_1
                 }
             }
 
-            using (StreamWriter sw = new StreamWriter(path, false))
+            using (StreamWriter sw = new StreamWriter(_path, false))
             {
                 sw.WriteLine(String.Join("\n", list));
             }
@@ -158,7 +158,7 @@ namespace TASK_1
 
             List<string> list = new List<string>();
 
-            using (StreamReader sr = new StreamReader(path))
+            using (StreamReader sr = new StreamReader(_path))
             {
                 string line;
                 string[] substrings;
@@ -177,9 +177,9 @@ namespace TASK_1
 
         public static void AscendingSort()
         {
-            PersonalData[] workerArray = new PersonalData[fileLength];
+            PersonalData[] workerArray = new PersonalData[_fileLength];
 
-            using (StreamReader sr = new StreamReader(path))
+            using (StreamReader sr = new StreamReader(_path))
             {
                 string line;
                 string[] substrings;
@@ -234,9 +234,9 @@ namespace TASK_1
 
         public static void DescendingSort()
         {
-            PersonalData[] workerArray = new PersonalData[fileLength];
+            PersonalData[] workerArray = new PersonalData[_fileLength];
 
-            using (StreamReader sr = new StreamReader(path))
+            using (StreamReader sr = new StreamReader(_path))
             {
                 string line;
                 string[] substrings;
