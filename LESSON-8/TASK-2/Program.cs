@@ -9,6 +9,7 @@ namespace TASK_2
         {
             string operationID;
 
+            ListService listService = new ListService();
             Dictionary<string, string> phoneBook = new Dictionary<string, string>();
 
             while (true)
@@ -24,10 +25,10 @@ namespace TASK_2
                 switch (operationID)
                 {
                     case "1":
-                        Methods.AddNumber(phoneBook);
+                        listService.AddNumber(phoneBook);
                         break;
                     case "2":
-                        Methods.FindNumber(phoneBook);
+                        listService.FindNumber(phoneBook);
                         break;
                     case "3":
                         Console.WriteLine("Работа прекращена");

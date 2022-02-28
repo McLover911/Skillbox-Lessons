@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace TASK_1
 {
-    internal class Methods
+    internal class ListService
     {
-        public static void ListFilling(List<int> list)
+        public void ListFilling(List<int> list)
         {
             Random random = new Random();
 
@@ -18,7 +18,7 @@ namespace TASK_1
             }
         }
 
-        public static void DisplayList(List<int> list)
+        public void DisplayList(List<int> list)
         {
             foreach (int num in list)
             {
@@ -26,7 +26,7 @@ namespace TASK_1
             }
         }
 
-        public static void RemoveInRange(List<int> list, int minValue, int maxValue)
+        public void RemoveInRange(List<int> list, int minValue, int maxValue)
         {
             for (int i = list.Count - 1; i >= 0; i--)
             {

@@ -8,17 +8,18 @@ namespace TASK_1
     {
         static void Main(string[] args)
         {
+            ListService listService = new ListService();
             List<int> integer = new List<int>();
 
-            Methods.ListFilling(integer);
+            listService.ListFilling(integer);
 
-            Methods.DisplayList(integer);
+            listService.DisplayList(integer);
 
-            Methods.RemoveInRange(integer, 25, 50);
+            listService.RemoveInRange(integer, 25, 50);
 
             Console.WriteLine();
 
-            Methods.DisplayList(integer);
+            listService.DisplayList(integer);
         }
     }
 }

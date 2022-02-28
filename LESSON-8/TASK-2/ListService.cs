@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace TASK_2
 {
-    internal class Methods
+    internal class ListService
     {
-        public static void AddNumber(Dictionary<string, string> phonebook)
+        public void AddNumber(Dictionary<string, string> phonebook)
         {
             string ownersName;
             string phoneNumber;
@@ -36,7 +36,7 @@ namespace TASK_2
             }
         }
 
-        public static void FindNumber(Dictionary<string, string> phonebook)
+        public void FindNumber(Dictionary<string, string> phonebook)
         {
             string phoneNumber;
             string ownersName;
