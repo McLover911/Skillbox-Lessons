@@ -6,6 +6,7 @@ using Telegram.Bot.Exceptions;
 using Telegram.Bot.Extensions.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.InputFiles;
 
 string token = System.IO.File.ReadAllText(@"E:\TelegramBots\1\TheFirstPrototypeBot.txt");
 TelegramBotClient botClient = new TelegramBotClient(token);
@@ -37,6 +38,7 @@ async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, Cancel
     var chatId = update.Message.Chat.Id;
     var messageText = update.Message.Text;
     string creationDate = Convert.ToString(DateTime.Now).Replace(':', '-');
+    string path = @"E:\Skillbox\C#\Skillbox-Lessons\LESSON-9\TASK-1\bin\Debug\net6.0\Downloads\";
 
 
     // Only process Message updates: https://core.telegram.org/bots/api#message
@@ -47,47 +49,60 @@ async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, Cancel
 
     int update_id = 0;
 
-    while (true)
+    var msgs = botClient.GetUpdatesAsync(update_id).Result;
+
+    if (update.Message.Type == MessageType.Voice)
     {
-        var msgs = botClient.GetUpdatesAsync(update_id).Result;
-
-        foreach (dynamic msg in msgs)
-        {
-            update_id = Convert.ToInt32(msg.Id) + 1;
-            string userMessage = msg.Message.Text;
-            string userId = Convert.ToString(msg.Message.From.Id);
-            string useFirstrName = msg.Message.From.FirstName;
-            string text = $"{useFirstrName} {userId} {userMessage} {msg.Id} {msg.Message.Type} {update_id}";
-
-            //if (msg.Message.Type == MessageType.Voice)
-            //{
-            //    Download(msg.Message.Voice.FileId, creationDate + msg.Message.Voice.FileId);
-            //}
-
-            //if (msg.Message.Type == MessageType.Photo)
-            //{
-            //    string photoFileID = msg.Message.Photo[msg.Message.Photo.Length - 1].FileId;
-
-            //    Download(photoFileID, "Картинка " + creationDate + ".png");
-            //}
-
-            if (msg.Message.Text == "/start")
-            {
-                Message message = await botClient.SendTextMessageAsync(
-                    chatId: chatId,
-                    text: "Бот готов к работе",
-                    disableNotification: true,
-                    cancellationToken: cancellationToken);
-            }
-
-            Console.WriteLine(text);
-        }
-
-
-
-        Thread.Sleep(100);
+        Download(update.Message.Voice.FileId, path + creationDate + update.Message.Voice.FileId);
     }
 
+    if (update.Message.Type == MessageType.Photo)
+    {
+        string photoFileID = update.Message.Photo[update.Message.Photo.Length - 1].FileId;
+
+        Download(photoFileID, path + "Картинка " + creationDate + ".png");
+    }
+
+    if (update.Message.Text == "/getFiles")
+    {
+        DirectoryInfo directory = new DirectoryInfo(path);
+        FileInfo[] files = directory.GetFiles();
+        foreach (FileInfo file in files)
+        {
+            FileStream fs = System.IO.File.OpenRead(file.FullName);
+            InputOnlineFile iof = new InputOnlineFile(fs);
+            iof.FileName = file.Name;
+            botClient.SendDocumentAsync(update.Message.Chat.Id, iof, file.Name);
+            Thread.Sleep(300);
+        }
+    }
+
+    Message sentMessage = await botClient.SendTextMessageAsync(
+        chatId: chatId,
+        text: "Message type is " + update.Message.Type,
+        cancellationToken: cancellationToken);
+
+    //foreach (dynamic msg in msgs)
+    //{
+    //    update_id = Convert.ToInt32(msg.Id) + 1;
+    //    string userMessage = msg.Message.Text;
+    //    string userId = Convert.ToString(msg.Message.From.Id);
+    //    string useFirstrName = msg.Message.From.FirstName;
+    //    string text = $"{useFirstrName} {userId} {userMessage} {msg.Id} {msg.Message.Type} {update_id}";
+
+
+
+    //    if (msg.Message.Text == "/start")
+    //    {
+    //        Message message = await botClient.SendTextMessageAsync(
+    //            chatId: chatId,
+    //            text: "Бот готов к работе",
+    //            disableNotification: true,
+    //            cancellationToken: cancellationToken);
+    //    }
+
+    //    Console.WriteLine(text);
+    //}
 }
 
 Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
