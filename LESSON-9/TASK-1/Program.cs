@@ -117,7 +117,7 @@ async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, Cancel
                 FileInfo[] files = directory.GetFiles();
                 FileStream fs = System.IO.File.OpenRead(files[fileIndex].FullName);
 
-                Download(fileIDs[fileIndex], downloadPath + "Картинка_" + creationDate + ".png");
+                Download(fileIDs[fileIndex], downloadPath + "Файл_" + creationDate);
             }
             else
             {
