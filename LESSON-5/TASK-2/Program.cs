@@ -13,6 +13,7 @@ namespace TASK_2
         {
             string resultString = "";
             string[] separatedInput = SeparateString(inputPhrase);
+
             Array.Reverse(separatedInput);
 
             foreach (string word in separatedInput)

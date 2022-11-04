@@ -1,165 +1,162 @@
-﻿using Newtonsoft.Json.Linq;
-using System.Net;
-using System.Text;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Telegram.Bot;
-using Telegram.Bot.Exceptions;
 using Telegram.Bot.Extensions.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using System.IO;
+using System.Collections.Generic;
 using Telegram.Bot.Types.InputFiles;
+using Newtonsoft.Json;
+using File = System.IO.File;
+using System.Linq;
+using Newtonsoft.Json.Linq;
 
-
-using var cts = new CancellationTokenSource();
-
-Dictionary<int, string> fileIDs = new Dictionary<int, string>();
-
-string token = System.IO.File.ReadAllText(@"E:\Dev\TelegramBots\1\TheFirstPrototypeBot.txt");
-TelegramBotClient botClient = new TelegramBotClient(token);
-
-var receiverOptions = new ReceiverOptions
+namespace TelegramBotExperiments
 {
-    AllowedUpdates = { }
-};
-
-botClient.StartReceiving(
-    HandleUpdateAsync,
-    HandleErrorAsync,
-    receiverOptions,
-    cancellationToken: cts.Token);
-
-var me = await botClient.GetMeAsync();
-
-Console.WriteLine($"Start listening for @{me.Username}");
-Console.ReadLine();
-
-// Send cancellation request to stop bot
-cts.Cancel();
-
-async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
-{
-    string[] messageSubstrings;
-
-    long chatId = update.Message.Chat.Id;
-    string messageText = update.Message.Text;
-    string creationDate = Convert.ToString(DateTime.Now).Replace(':', '-').Replace(' ', '_');
-
-    string savePath = @"Save";
-    string downloadPath = @"Download";
-
-    if (update.Type != UpdateType.Message)
+    class Program
     {
-        return;
-    }
+        static string token = @"token.txt";
+        static ITelegramBotClient bot = new TelegramBotClient(File.ReadAllText(token));
 
-    switch (update.Message.Text)
-    {
-        case "/start":
-            Message message = await botClient.SendTextMessageAsync(
-            chatId: chatId,
-            text: "Бот готов к работе",
-            disableNotification: true,
-            cancellationToken: cancellationToken);
+        static Dictionary<int, string> fileIDs = new Dictionary<int, string>();
 
-            break;
+        public static async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
+        {
+            // переменные
+            string savePath = @"Save\";
+            string downloadPath = @"Download\";
+            string usernameAndText = $"{update.Message.From.Username}\n{update.Message.Text}\n\n";
+            string creationDate = Convert.ToString(DateTime.Now).Replace(':', '-').Replace(' ', '_');
+            string[] messageSubstrings;
 
-        case "/getfiles":
-            DirectoryInfo directory = new DirectoryInfo(savePath);
-            FileInfo[] files = directory.GetFiles();
-            int fileNum = 0;
+            Message message = update.Message;
+            long chatId = update.Message.Chat.Id;
 
-            foreach (FileInfo file in files)
+            if (update.Type == UpdateType.Message)
             {
-                FileStream fs = System.IO.File.OpenRead(file.FullName);
-                InputOnlineFile iof = new InputOnlineFile(fs);
-                iof.FileName = file.Name;
-
-                await botClient.SendTextMessageAsync(
-                    chatId: chatId,
-                    text: $"Номер файла: {fileNum}",
-                    cancellationToken: cancellationToken);
-
-                var sendDoc = await botClient.SendDocumentAsync(update.Message.Chat.Id, iof, file.Name);
-                fileIDs.Add(fileNum, sendDoc.Document.FileId);
-
-                fileNum++;
-            }
-
-            await botClient.SendTextMessageAsync(
-                    chatId: chatId,
-                    text: $"Чтобы скачать файл, введите команду /get с номером файла через пробел",
-                    cancellationToken: cancellationToken);
-            break;
-    }
-
-    switch (update.Message.Type)
-    {
-        case MessageType.Voice:
-            Download(update.Message.Voice.FileId, savePath + creationDate + update.Message.Voice.FileId);
-            break;
-
-        case MessageType.Photo:
-            string photoFileID = update.Message.Photo[update.Message.Photo.Length - 1].FileId;
-            Download(photoFileID, savePath + "Картинка_" + creationDate + ".png");
-            break;
-
-        case MessageType.Text:
-            messageSubstrings = update.Message.Text.Split(' ');
-            if (messageSubstrings[0] == "/get")
-            {
-                int fileIndex = Convert.ToInt32(messageSubstrings[1]);
-
-                if (fileIDs.ContainsKey(fileIndex))
+                // обработка текстовых сообщений
+                switch (update.Message.Text)
                 {
-                    DirectoryInfo directory = new DirectoryInfo(savePath);
-                    FileInfo[] files = directory.GetFiles();
-                    FileStream fs = System.IO.File.OpenRead(files[fileIndex].FullName);
+                    case "/start":
+                        await botClient.SendTextMessageAsync(message.Chat, "Начало работы");
+                        break;
 
-                    Download(fileIDs[fileIndex], downloadPath + "Файл_" + creationDate);
-                }
-                else
-                {
-                    await botClient.SendTextMessageAsync(
-                    chatId: chatId,
-                    text: "Нет такого номера",
-                    cancellationToken: cancellationToken);
+                    case "/getfiles":
+                        await botClient.SendTextMessageAsync(message.Chat, "Список файлов:");
+
+                        DirectoryInfo directory = new DirectoryInfo(savePath);
+                        FileInfo[] files = directory.GetFiles();
+                        int fileNum = 0;
+
+                        foreach (FileInfo file in files)
+                        {
+                            FileStream fs = System.IO.File.OpenRead(file.FullName);
+                            InputOnlineFile iof = new InputOnlineFile(fs);
+                            iof.FileName = file.Name;
+
+                            await botClient.SendTextMessageAsync(
+                                chatId: chatId,
+                                text: $"Номер файла: {fileNum}",
+                                cancellationToken: cancellationToken);
+
+                            var sendDoc = await botClient.SendDocumentAsync(update.Message.Chat.Id, iof, file.Name);
+
+                            fileIDs.Add(fileNum, sendDoc.Document.FileId);
+
+                            fileNum++;
+                        }
+                        await botClient.SendTextMessageAsync(message.Chat, "Чтобы скачать файл, введите команду /get_номерФайла");
+
+                        break;
                 }
 
-                await botClient.SendTextMessageAsync(
-                    chatId: chatId,
-                    text: "Файл скачен",
-                    cancellationToken: cancellationToken);
+                // обработка остальных типов сообщений (не текстовых)
+                switch (update.Message.Type)
+                {
+                    case MessageType.Voice:
+                        Download(update.Message.Voice.FileId, savePath + creationDate + update.Message.Voice.FileId + ".mp3");
+                        break;
+
+                    case MessageType.Photo:
+                        string photoFileID = update.Message.Photo[update.Message.Photo.Length - 1].FileId;
+                        Download(photoFileID, savePath + "Картинка_" + creationDate + ".png");
+                        break;
+
+                    case MessageType.Text:
+                        messageSubstrings = update.Message.Text.Split(' ');
+
+                        // обработка "/get_файл"
+                        if (messageSubstrings[0] == "/get")
+                        {
+                            int fileIndex = Convert.ToInt32(messageSubstrings[1]);
+
+                            if (fileIDs.ContainsKey(fileIndex))
+                            {
+                                DirectoryInfo directory = new DirectoryInfo(savePath);
+                                FileInfo[] files = directory.GetFiles();
+                                FileStream fs = System.IO.File.OpenRead(files[fileIndex].FullName);
+
+                                Download(fileIDs[fileIndex], downloadPath + "Файл_" + creationDate);
+                            }
+                            else
+                            {
+                                await botClient.SendTextMessageAsync(message.Chat, "Нет такого индекса");
+                            }
+
+                            await botClient.SendTextMessageAsync(message.Chat, "Файл скачен");
+                        }
+                        break;
+
+                    default:
+                        await botClient.SendTextMessageAsync(
+                            chatId: chatId,
+                            text: $"Unknown type",
+                            cancellationToken: cancellationToken);
+                        break;
+                }
             }
-            break;
+        }
 
-        default:
-            await botClient.SendTextMessageAsync(
-                chatId: chatId,
-                text: $"Unknown type",
-                cancellationToken: cancellationToken);
-            break;
-    }
+        public static async Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
+        {
+            Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(exception));
+        }
 
-}
+        /// <summary>
+        /// сохранение файлов на сервере
+        /// </summary>
+        /// <param name="fileId">id скачиваемого файла</param>
+        /// <param name="path">путь для скачивания</param>
+        static async void Download(string fileId, string path)
+        {
+            var file = await bot.GetFileAsync(fileId);
 
-Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
-{
-    var ErrorMessage = exception switch
-    {
-        ApiRequestException apiRequestException
-            => $"Telegram API Error:\n[{apiRequestException.ErrorCode}]\n{apiRequestException.Message}",
-        _ => exception.ToString()
-    };
+            using (FileStream fs = new FileStream(path, FileMode.Create))
+            {
+                await bot.DownloadFileAsync(file.FilePath, fs);
+            }
+        }
 
-    Console.WriteLine(ErrorMessage);
-    return Task.CompletedTask;
-}
 
-async void Download(string fileId, string path)
-{
-    var file = await botClient.GetFileAsync(fileId);
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Запущен бот " + bot.GetMeAsync().Result.FirstName);
 
-    using (FileStream fs = new FileStream(path, FileMode.Create))
-    {
-        await botClient.DownloadFileAsync(file.FilePath, fs);
+            var cts = new CancellationTokenSource();
+            var cancellationToken = cts.Token;
+            var receiverOptions = new ReceiverOptions
+            {
+                AllowedUpdates = { }, // receive all update types
+            };
+            bot.StartReceiving(
+                HandleUpdateAsync,
+                HandleErrorAsync,
+                receiverOptions,
+                cancellationToken
+            );
+            Console.ReadLine();
+        }
     }
 }

@@ -71,7 +71,6 @@ namespace TASK_1
                     Console.WriteLine();
                 }
             }
-            
         }
     }
 }
