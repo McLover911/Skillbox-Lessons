@@ -26,22 +26,22 @@ namespace TASK_1
         {
             InitializeComponent();
         }
-         
-        private void Left_Button_Click(object sender, RoutedEventArgs e)
+        
+        private void Click_Split_Button(object sender, RoutedEventArgs e)
         {
-            string[] substrings = _strReverse.SplitText(firstTB.Text);
+            string[] substrings = _strReverse.SplitText(textBoxToSeparate.Text);
 
-            listBox.Items.Clear();
+            listBoxToSeparate.Items.Clear();
 
             foreach (string substring in substrings)
             {
-                listBox.Items.Add(substring);
+                listBoxToSeparate.Items.Add(substring);
             }
         }
 
-        private void Right_Button_Click(object sender, RoutedEventArgs e)
+        private void Click_Reverse_Button(object sender, RoutedEventArgs e)
         {
-            label.Content = _strReverse.Reverse(secondTB.Text);
+            labelToReverse.Content = _strReverse.Reverse(textBoxToReverse.Text);
         }
     }
 }

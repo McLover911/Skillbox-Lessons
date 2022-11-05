@@ -24,7 +24,5 @@ namespace TASK_1
 
             return _result;
         }
-
-        
     }
 }
