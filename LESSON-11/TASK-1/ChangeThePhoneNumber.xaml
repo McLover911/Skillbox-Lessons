@@ -1,0 +1,40 @@
+﻿<Window x:Class="TASK_1.ChangeThePhoneNumber"
+        
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        
+        xmlns:local="clr-namespace:TASK_1"
+        mc:Ignorable="d"
+        
+        Title="ChangeThePhoneNumber" Height="250" Width="500"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <TextBlock Grid.Row="0"
+                   Text="Введите новый номер телефона:"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Bottom"
+                   FontSize="17"
+                   Margin="20"/>
+        
+        <TextBox x:Name="textBoxNewNumber"
+                 Grid.Row="1"
+                 Height="30"
+                 Width="300"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Top"/>
+        
+        <Button Grid.Row="1"
+                Content="Подтвердить"
+                Width="100"
+                Height="30" Click="Button_Click"/>
+    </Grid>
+</Window>

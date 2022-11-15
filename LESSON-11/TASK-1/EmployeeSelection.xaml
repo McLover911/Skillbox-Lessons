@@ -1,0 +1,41 @@
+﻿<Window x:Class="TASK_1.EmployeeSelection"
+        
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        
+        xmlns:local="clr-namespace:TASK_1"
+        mc:Ignorable="d"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        
+        Title="EmployeeSelection" Height="450" Width="800"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <sys:Double x:Key="buttonFontSize">40</sys:Double>
+        <Thickness x:Key="buttonMargin">40</Thickness>
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Button x:Name="buttonConsultant"
+                Grid.Row="0"
+                Content="Консультант"
+                FontSize="{StaticResource buttonFontSize}"
+                Margin="{StaticResource buttonMargin}" 
+                Click="buttonConsultant_Click"/>
+
+        <Button x:Name="buttonManager"
+                Grid.Row="1"
+                Content="Менеджер"
+                FontSize="{StaticResource buttonFontSize}"
+                Margin="{StaticResource buttonMargin}" 
+                Click="buttonManager_Click"/>
+    </Grid>
+</Window>
