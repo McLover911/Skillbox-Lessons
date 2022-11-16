@@ -15,6 +15,10 @@ namespace TASK_1
         private protected string _patronymic;
         private protected string _passportID;
         private protected long _phoneNumber;
+        private protected DateTime _dateOfChange;
+        private protected string _typeOfDataChanged;
+        private protected string _typeOfChanges;
+        private protected string _whoChanged;
 
         public string Surname
         {

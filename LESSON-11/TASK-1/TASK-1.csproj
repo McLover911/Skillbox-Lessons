@@ -85,6 +85,8 @@
     <Compile Include="EmployeeSelection.xaml.cs">
       <DependentUpon>EmployeeSelection.xaml</DependentUpon>
     </Compile>
+    <Compile Include="IConsultant.cs" />
+    <Compile Include="IManager.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
