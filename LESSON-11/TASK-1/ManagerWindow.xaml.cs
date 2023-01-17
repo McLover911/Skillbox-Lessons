@@ -25,7 +25,7 @@ namespace TASK_1
 
             Manager manager = new Manager();
 
-            listViewClients.ItemsSource = manager.FillsTheListOfClients();
+            listViewClients.ItemsSource = manager.FillTheListOfClients();
         }
 
         private void buttonSurname_Click(object sender, RoutedEventArgs e)
@@ -77,6 +77,13 @@ namespace TASK_1
                 this.Close();
                 dataChangeWindow.Show();
             }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            EmployeeSelection employeeSelection = new EmployeeSelection();
+            this.Close();
+            employeeSelection.Show();
         }
     }
 }

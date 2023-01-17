@@ -8,6 +8,6 @@ namespace TASK_1
 {
     internal interface IConsultant
     {
-        void ChangeNumber();
+        void ChangeThePhoneNumber(string textBoxNewNumber, int selectedIndex, string currentPhoneNumber, string fullName);
     }
 }

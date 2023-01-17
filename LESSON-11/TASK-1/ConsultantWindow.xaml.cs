@@ -20,21 +20,29 @@ namespace TASK_1
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class ConsultantWindow : Window
     {
-        public MainWindow()
+        public ConsultantWindow()
         {
             InitializeComponent();
 
             Consultant consultant = new Consultant();
 
-            listViewClients.ItemsSource = consultant.FillsTheListOfClients();
+            listViewClients.ItemsSource = consultant.FillTheListOfClients();
+
+            if (File.Exists(@"Tables\Logs.txt"))
+            {
+                listViewChanges.ItemsSource = consultant.FillTheListOfChanges(); 
+            }
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
             int selectedIndex;
             string currentNumber;
+            string surname;
+            string name;
+            string patronymic;
 
             if (listViewClients.SelectedItems.Count == 0)
             {
@@ -46,13 +54,26 @@ namespace TASK_1
             else
             {
                 selectedIndex = listViewClients.SelectedIndex;
-                currentNumber = (listViewClients.SelectedItem as Consultant).PhoneNumber.ToString();
 
-                ChangeThePhoneNumber changeNumberWindow = new ChangeThePhoneNumber(selectedIndex, currentNumber);
+                currentNumber = (listViewClients.SelectedItem as Consultant).PhoneNumber.ToString();
+                surname = (listViewClients.SelectedItem as Consultant).Surname;
+                name = (listViewClients.SelectedItem as Consultant).Name;
+                patronymic = (listViewClients.SelectedItem as Consultant).Patronymic;
+
+                string fullName = surname + " " + name + " " + patronymic;
+
+                ChangeThePhoneNumber changeNumberWindow = new ChangeThePhoneNumber(selectedIndex, currentNumber, fullName);
                 this.Close();
                 changeNumberWindow.Show();
             }
 
+        }
+
+        private void buttonChangeThePerson_Click(object sender, RoutedEventArgs e)
+        {
+            EmployeeSelection employeeSelection = new EmployeeSelection();
+            this.Close();
+            employeeSelection.Show();
         }
     }
 }

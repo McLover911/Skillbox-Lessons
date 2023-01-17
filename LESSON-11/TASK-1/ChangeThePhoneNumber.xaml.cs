@@ -23,28 +23,28 @@ namespace TASK_1
     {
         private int _listViewSelectedIndex;
         private string _currentPhoneNumber;
-        private string[] _listOfClients;
+        private string _fullName;
 
-        public ChangeThePhoneNumber(int selectedIndex, string currentPhoneNumber)
+        Consultant consultant = new Consultant();
+
+        public ChangeThePhoneNumber(int selectedIndex, string currentPhoneNumber, string name)
         {
             InitializeComponent();
 
             _listViewSelectedIndex = selectedIndex;
             _currentPhoneNumber = currentPhoneNumber;
+            _fullName = name;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            _listOfClients = File.ReadAllLines(@"Tables/Clients.txt");
-
             // обработка введённой информации
             if (!String.IsNullOrEmpty(textBoxNewNumber.Text) && int.TryParse(textBoxNewNumber.Text, out int newNumber))
             {
                 // перезапись файла с новой информацией
-                _listOfClients[_listViewSelectedIndex] = _listOfClients[_listViewSelectedIndex].Replace(_currentPhoneNumber, textBoxNewNumber.Text);
-                File.WriteAllLines(@"Tables/Clients.txt", _listOfClients);
+                consultant.ChangeThePhoneNumber(textBoxNewNumber.Text, _listViewSelectedIndex, _currentPhoneNumber, _fullName);
 
-                MainWindow mainWindow = new MainWindow();
+                ConsultantWindow mainWindow = new ConsultantWindow();
                 mainWindow.Show();
                 this.Close();
             }

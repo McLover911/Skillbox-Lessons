@@ -6,14 +6,11 @@ using System.Threading.Tasks;
 
 namespace TASK_1
 {
-    internal interface IManager
+    internal interface IManager : IConsultant
     {
+        void DataChange(int selectedIndex, string dataToReplace, string newData);
+
         void AddClient();
 
-        void ChangeSurname();
-        void ChangeName();
-        void ChangePatronymic();
-        void ChangePhoneNumber();
-        void ChangePassportID();
     }
 }

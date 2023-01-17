@@ -26,7 +26,7 @@ namespace TASK_1
 
         private void buttonConsultant_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = new MainWindow();
+            ConsultantWindow mainWindow = new ConsultantWindow();
             mainWindow.Show();
             this.Close();
         }

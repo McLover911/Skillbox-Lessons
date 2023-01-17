@@ -4,21 +4,20 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media.Animation;
+using System.Diagnostics;
 
 namespace TASK_1
 {
-    internal class Consultant
+    internal class Consultant : IConsultant
     {
         private protected string _surname;
         private protected string _name;
         private protected string _patronymic;
         private protected string _passportID;
         private protected long _phoneNumber;
-        private protected DateTime _dateOfChange;
-        private protected string _typeOfDataChanged;
-        private protected string _typeOfChanges;
-        private protected string _whoChanged;
+        
 
         public string Surname
         {
@@ -39,10 +38,12 @@ namespace TASK_1
         }
         public string PassportID
         {
-            get { if (_passportID.Length > 0 && int.TryParse(_passportID, out int passportIdInt) && passportIdInt > 0) return "**********";
+            get { if (_passportID.Length > 0 
+                      && int.TryParse(_passportID, out int passportIdInt) 
+                      && passportIdInt > 0) return "**********";
                   else return "Нет данных"; }
         }
-
+        
         public Consultant() { }
 
         // конструктор для использования внутри класса
@@ -56,7 +57,7 @@ namespace TASK_1
         }
 
         // метод, возвращающий список клиентов
-        public List<Consultant> FillsTheListOfClients()
+        public virtual List<Consultant> FillTheListOfClients()
         {
             string[] clients = File.ReadAllLines(@"Tables\Clients.txt");
             string[] client = new string[5];
@@ -72,6 +73,49 @@ namespace TASK_1
                                                  client[2], 
                                                  long.Parse(client[3]), 
                                                  client[4]));
+            }
+            return listOfClients;
+        }
+
+        public void ChangeThePhoneNumber(string textBoxNewNumber, int selectedIndex, string currentPhoneNumber, string fullName)
+        {
+            string[] _listOfClients = File.ReadAllLines(@"Tables/Clients.txt");
+            string changes = currentPhoneNumber + "->" + textBoxNewNumber;
+
+            _listOfClients[selectedIndex] = _listOfClients[selectedIndex].Replace(currentPhoneNumber, textBoxNewNumber);
+            File.WriteAllLines(@"Tables/Clients.txt", _listOfClients);
+
+            AddLogs("Телефон", fullName, changes, "Консультант");
+        }
+
+        public void AddLogs(string typeOfChangedData, string nameOfPerson, string typeOfChanges, string whoChanged)
+        {
+            string Log = DateTime.Now.ToString() + '#' +
+                         nameOfPerson + '#' +
+                         typeOfChangedData + '#' +
+                         typeOfChanges + '#' +
+                         whoChanged + "\n";
+
+            File.AppendAllText(@"Tables/Logs.txt", Log);
+        }
+
+        public List<Changes> FillTheListOfChanges()
+        {
+            
+            string[] clients = File.ReadAllLines(@"Tables\Logs.txt");
+            string[] client = new string[5];
+
+            List<Changes> listOfClients = new List<Changes>();
+
+            for (int i = 0; i < clients.Length; i++)
+            {
+                client = clients[i].Split('#');
+
+                listOfClients.Add(new Changes(DateTime.Parse(client[0]),
+                                             client[1],
+                                             client[2],
+                                             client[3],
+                                             client[4]));
             }
             return listOfClients;
         }

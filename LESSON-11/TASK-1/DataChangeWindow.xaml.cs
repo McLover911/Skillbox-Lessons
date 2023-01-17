@@ -23,15 +23,19 @@ namespace TASK_1
         private int _listViewSelectedIndex;
         private string _button;
         private string[] _listOfClients;
-        private Manager _currentClient;
+        private Consultant _currentClient;
+        private Manager _manager;
+
+
 
         public DataChangeWindow(int selectedIndex, object currentClient, string button)
         {
             InitializeComponent();
 
             _listViewSelectedIndex = selectedIndex;
-            _currentClient = currentClient as Manager;
+            _currentClient = currentClient as Consultant;
             _button = button;
+            _manager = new Manager();
 
             switch (_button)
             {
@@ -56,6 +60,7 @@ namespace TASK_1
 
         private void buttonSaveData_Click(object sender, RoutedEventArgs e)
         {
+             
             string dataToReplace = "";
 
             switch (_button)
@@ -77,12 +82,11 @@ namespace TASK_1
                     break;
             }
 
-            _listOfClients = File.ReadAllLines(@"Tables/Clients.txt");
+            
 
             if (!String.IsNullOrEmpty(textBoxNewData.Text))
             {
-                _listOfClients[_listViewSelectedIndex] = _listOfClients[_listViewSelectedIndex].Replace(dataToReplace, textBoxNewData.Text);
-                File.WriteAllLines(@"Tables/Clients.txt", _listOfClients);
+                _manager.DataChange(_listViewSelectedIndex, dataToReplace, textBoxNewData.Text);
 
                 ManagerWindow managerWindow = new ManagerWindow();
                 managerWindow.Show();

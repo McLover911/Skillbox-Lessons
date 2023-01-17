@@ -7,7 +7,7 @@ using System.IO;
 
 namespace TASK_1
 {
-    internal class Manager : Consultant
+    internal class Manager : Consultant, IManager
     {
         public new string Surname
         {
@@ -24,22 +24,14 @@ namespace TASK_1
             get { return _patronymic; }
             set { _patronymic = value; }
         }
-        public new long PhoneNumber
-        {
-            get { return _phoneNumber; }
-            set { if (value.ToString().Length > 0 && value > 0) _phoneNumber = value; }
-        }
         public new string PassportID
         {
             get { return _passportID; }
             set { _passportID = value; }
         }
+
         public Manager() { }
-        private Manager(string surname, 
-                        string name, 
-                        string patronymic, 
-                        long phoneNumber, 
-                        string passportID)
+        private Manager(string surname, string name, string patronymic, long phoneNumber, string passportID)
         {
             _surname = surname;
             _name = name;
@@ -48,8 +40,7 @@ namespace TASK_1
             _passportID = passportID;
         }
 
-        // метод, возвращающий список клиентов
-        public new List<Consultant> FillsTheListOfClients()
+        public override List<Consultant> FillTheListOfClients()
         {
             string[] clients = File.ReadAllLines(@"Tables\Clients.txt");
             string[] client = new string[5];
@@ -67,6 +58,15 @@ namespace TASK_1
                                                  client[4]));
             }
             return listOfClients;
+        }
+        public void AddClient() { }
+
+        public void DataChange(int selectedIndex, string dataToReplace, string newData)
+        {
+            string[] _listOfClients = File.ReadAllLines(@"Tables/Clients.txt");
+
+            _listOfClients[selectedIndex] = _listOfClients[selectedIndex].Replace(dataToReplace, newData);
+            File.WriteAllLines(@"Tables/Clients.txt", _listOfClients);
         }
     }
 }
