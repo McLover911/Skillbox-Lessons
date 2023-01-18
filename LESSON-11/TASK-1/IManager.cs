@@ -10,7 +10,7 @@ namespace TASK_1
     {
         void DataChange(int selectedIndex, string dataToReplace, string newData);
 
-        void AddClient();
+        void AddClient(string surname, string name, string patronimyc, string phoneNumber, string passportId);
 
     }
 }

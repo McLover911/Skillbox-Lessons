@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.IO;
 
 namespace TASK_1
 {
@@ -26,39 +27,17 @@ namespace TASK_1
             Manager manager = new Manager();
 
             listViewClients.ItemsSource = manager.FillTheListOfClients();
+
+            if (File.Exists(@"Tables\Logs.txt"))
+            {
+                listViewChanges.ItemsSource = manager.FillTheListOfChanges();
+            }
         }
 
-        private void buttonSurname_Click(object sender, RoutedEventArgs e)
-        {
-            DataChange("surname");
-        }
-
-        private void buttonName_Click(object sender, RoutedEventArgs e)
-        {
-            DataChange("name");
-        }
-
-        private void buttonPatronymic_Click(object sender, RoutedEventArgs e)
-        {
-            DataChange("patronymic");
-        }
-
-        private void buttonPhoneNumber_Click(object sender, RoutedEventArgs e)
-        {
-            DataChange("phoneNumber");
-        }
-
-        private void buttonPassportID_Click(object sender, RoutedEventArgs e)
-        {
-            DataChange("passportID");
-        }
-        private void DataChange(string buttonType)
+        private void buttonToChange_Click(object sender, RoutedEventArgs e)
         {
             int selectedIndex;
             object currentClient;
-            string button;
-
-            button = buttonType;
             
             if (listViewClients.SelectedItems.Count == 0)
             {
@@ -67,23 +46,37 @@ namespace TASK_1
                                 MessageBoxButton.OK,
                                 MessageBoxImage.Warning);
             }
+            else if (comboBoxSelectedItem.Text == "")
+            {
+                MessageBox.Show("Что изменить-то?",
+                                "Ошибка",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Warning);
+            }
             else
             {
                 selectedIndex = listViewClients.SelectedIndex;
                 currentClient = listViewClients.SelectedItem;
-
-                DataChangeWindow dataChangeWindow = new DataChangeWindow(selectedIndex, currentClient, button);
+                
+                DataChangeWindow dataChangeWindow = new DataChangeWindow(selectedIndex, currentClient, comboBoxSelectedItem.Text);
 
                 this.Close();
                 dataChangeWindow.Show();
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_GoToEmployeeSelection(object sender, RoutedEventArgs e)
         {
             EmployeeSelection employeeSelection = new EmployeeSelection();
             this.Close();
             employeeSelection.Show();
+        }
+
+        private void buttonToAddNewClient_Click(object sender, RoutedEventArgs e)
+        {
+            AddClientWindow addClientWindow = new AddClientWindow();
+            this.Close();
+            addClientWindow.Show();
         }
     }
 }

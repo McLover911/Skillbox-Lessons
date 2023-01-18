@@ -62,7 +62,7 @@ namespace TASK_1
 
                 string fullName = surname + " " + name + " " + patronymic;
 
-                ChangeThePhoneNumber changeNumberWindow = new ChangeThePhoneNumber(selectedIndex, currentNumber, fullName);
+                ChangeThePhoneNumberWindow changeNumberWindow = new ChangeThePhoneNumberWindow(selectedIndex, currentNumber, fullName);
                 this.Close();
                 changeNumberWindow.Show();
             }

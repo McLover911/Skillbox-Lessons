@@ -10,7 +10,8 @@
         mc:Ignorable="d"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         
-        Title="DataChangeWindow" Height="450" Width="800"
+        Title="Изменить данные" 
+        Height="450" Width="500"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize">
     <Grid>
@@ -20,27 +21,20 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="120*"/>
-                <ColumnDefinition Width="80*"/>
-                <ColumnDefinition Width="100*"/>
-                <ColumnDefinition Width="100*"/>
-            </Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="0"
+                   Text="Изменяемые данные:"
+                   VerticalAlignment="Center"
+                   Margin="30,0,0,0"
+                   FontSize="20" 
+                   Height="27"/>
 
-            <TextBlock
-                       Grid.Column="0"
-                       Text="Изменяемые данные:"
-                       VerticalAlignment="Center"
-                       Margin="30,0,0,0"
-                       FontSize="20" Height="27"/>
-
-            <TextBlock x:Name="textBlockDataType"
-                       Grid.Column="1"
-                       Text="данные"
-                       VerticalAlignment="Center"
-                       FontSize="20"/>
-        </Grid>
+        <TextBlock x:Name="textBlockDataType"
+                   Grid.Column="0"
+                   Text="данные"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
+                   FontSize="20"
+                   Margin="250,0,0,0"/>
 
         <TextBlock Grid.Row="1"
                    Text="Введите новые данные:"
@@ -57,9 +51,21 @@
 
         <Button x:Name="buttonSaveData"
                 Grid.Row="2"
-                Content="Обновить данные"
                 Margin="30"
-                FontSize="30"
-                Click="buttonSaveData_Click"/>
+                FontSize="20"
+                Width="200"
+                HorizontalAlignment="Left"
+                Click="buttonSaveData_Click">
+            <TextBlock TextAlignment="Center">Обновить <LineBreak/> данные</TextBlock>
+        </Button>
+        
+        <Button x:Name="buttonCancel"
+                Grid.Row="2"
+                Content="Отмена"
+                Margin="30"
+                FontSize="20"
+                Width="200"
+                HorizontalAlignment="Right" 
+                Click="buttonCancel_Click"/>
     </Grid>
 </Window>

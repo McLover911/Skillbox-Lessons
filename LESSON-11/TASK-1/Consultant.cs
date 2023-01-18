@@ -15,34 +15,18 @@ namespace TASK_1
         private protected string _surname;
         private protected string _name;
         private protected string _patronymic;
-        private protected string _passportID;
         private protected long _phoneNumber;
+        private protected string _passportID;
         
-
-        public string Surname
-        {
-            get { return _surname; }
-        }
-        public string Name
-        {
-            get { return _name; }
-        }
-        public string Patronymic
-        {
-            get { return _patronymic; }
-        }
+        public string Surname { get { return _surname; } }
+        public string Name { get { return _name; } }
+        public string Patronymic { get { return _patronymic; } }
         public long PhoneNumber
         {
             get { return _phoneNumber; }
             set { if (value.ToString().Length > 0 && value > 0) _phoneNumber = value; }
         }
-        public string PassportID
-        {
-            get { if (_passportID.Length > 0 
-                      && int.TryParse(_passportID, out int passportIdInt) 
-                      && passportIdInt > 0) return "**********";
-                  else return "Нет данных"; }
-        }
+        public string PassportID { get { return "Нет доступа"; } }
         
         public Consultant() { }
 
@@ -79,11 +63,11 @@ namespace TASK_1
 
         public void ChangeThePhoneNumber(string textBoxNewNumber, int selectedIndex, string currentPhoneNumber, string fullName)
         {
-            string[] _listOfClients = File.ReadAllLines(@"Tables/Clients.txt");
+            string[] listOfClients = File.ReadAllLines(@"Tables/Clients.txt");
             string changes = currentPhoneNumber + "->" + textBoxNewNumber;
 
-            _listOfClients[selectedIndex] = _listOfClients[selectedIndex].Replace(currentPhoneNumber, textBoxNewNumber);
-            File.WriteAllLines(@"Tables/Clients.txt", _listOfClients);
+            listOfClients[selectedIndex] = listOfClients[selectedIndex].Replace(currentPhoneNumber, textBoxNewNumber);
+            File.WriteAllLines(@"Tables/Clients.txt", listOfClients);
 
             AddLogs("Телефон", fullName, changes, "Консультант");
         }
@@ -101,7 +85,6 @@ namespace TASK_1
 
         public List<Changes> FillTheListOfChanges()
         {
-            
             string[] clients = File.ReadAllLines(@"Tables\Logs.txt");
             string[] client = new string[5];
 
@@ -111,11 +94,13 @@ namespace TASK_1
             {
                 client = clients[i].Split('#');
 
+                if (client[2] == "Номер паспорта") client[3] = "Нет доступа";
+
                 listOfClients.Add(new Changes(DateTime.Parse(client[0]),
-                                             client[1],
-                                             client[2],
-                                             client[3],
-                                             client[4]));
+                                              client[1],
+                                              client[2],
+                                              client[3],
+                                              client[4]));
             }
             return listOfClients;
         }

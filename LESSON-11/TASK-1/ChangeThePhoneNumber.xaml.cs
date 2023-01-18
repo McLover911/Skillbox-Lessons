@@ -19,7 +19,7 @@ namespace TASK_1
     /// <summary>
     /// Логика взаимодействия для ChangeThePhoneNumber.xaml
     /// </summary>
-    public partial class ChangeThePhoneNumber : Window
+    public partial class ChangeThePhoneNumberWindow : Window
     {
         private int _listViewSelectedIndex;
         private string _currentPhoneNumber;
@@ -27,7 +27,7 @@ namespace TASK_1
 
         Consultant consultant = new Consultant();
 
-        public ChangeThePhoneNumber(int selectedIndex, string currentPhoneNumber, string name)
+        public ChangeThePhoneNumberWindow(int selectedIndex, string currentPhoneNumber, string name)
         {
             InitializeComponent();
 
@@ -55,6 +55,13 @@ namespace TASK_1
                                 MessageBoxButton.OK,
                                 MessageBoxImage.Error);
             }
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            ConsultantWindow mainWindow = new ConsultantWindow();
+            mainWindow.Show();
+            this.Close();
         }
     }
 }

@@ -22,67 +22,41 @@ namespace TASK_1
     {
         private int _listViewSelectedIndex;
         private string _button;
-        private string[] _listOfClients;
         private Consultant _currentClient;
         private Manager _manager;
-
-
 
         public DataChangeWindow(int selectedIndex, object currentClient, string button)
         {
             InitializeComponent();
 
             _listViewSelectedIndex = selectedIndex;
-            _currentClient = currentClient as Consultant;
+            _currentClient = currentClient as Manager;
             _button = button;
             _manager = new Manager();
 
             switch (_button)
             {
-                case "surname":
+                case "Фамилию":
                     textBlockDataType.Text = "Фамилия";
                     break;
-                case "name":
+                case "Имя":
                     textBlockDataType.Text = "Имя";
                     break;
-                case "patronymic":
+                case "Отчество":
                     textBlockDataType.Text = "Отчество";
                     break;
-                case "phoneNumber":
+                case "Номер телефона":
                     textBlockDataType.Text = "Номер телефона";
                     break;
-                case "passportID":
+                case "Номер паспорта":
                     textBlockDataType.Text = "Номер паспорта";
                     break;
             }
-             
         }
 
         private void buttonSaveData_Click(object sender, RoutedEventArgs e)
         {
-             
-            string dataToReplace = "";
-
-            switch (_button)
-            {
-                case "surname":
-                    dataToReplace = _currentClient.Surname;
-                    break;
-                case "name":
-                    dataToReplace = _currentClient.Name;
-                    break;
-                case "patronymic":
-                    dataToReplace = _currentClient.Patronymic;
-                    break;
-                case "phoneNumber":
-                    dataToReplace = _currentClient.PhoneNumber.ToString();
-                    break;
-                case "passportID":
-                    dataToReplace = _currentClient.PassportID;
-                    break;
-            }
-
-            
+            string dataToReplace = _button;
 
             if (!String.IsNullOrEmpty(textBoxNewData.Text))
             {
@@ -90,7 +64,6 @@ namespace TASK_1
 
                 ManagerWindow managerWindow = new ManagerWindow();
                 managerWindow.Show();
-
                 this.Close();
             }
             else
@@ -100,7 +73,13 @@ namespace TASK_1
                                 MessageBoxButton.OK,
                                 MessageBoxImage.Error);
             }
-            
+        }
+
+        private void buttonCancel_Click(object sender, RoutedEventArgs e)
+        {
+            ManagerWindow managerWindow = new ManagerWindow();
+            managerWindow.Show();
+            this.Close();
         }
     }
 }
