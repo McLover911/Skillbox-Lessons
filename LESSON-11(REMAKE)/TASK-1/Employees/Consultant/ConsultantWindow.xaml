@@ -1,0 +1,72 @@
+﻿<Window x:Class="TASK_1.Employees.Consultant.ConsultantWindow"
+        
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        
+        xmlns:local="clr-namespace:TASK_1"
+        mc:Ignorable="d"
+        
+        Title="Консультант" 
+        Height="450" Width="800"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <ListView x:Name="listViewClients"
+                  Grid.Row="0">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Фамилия" Width="100" DisplayMemberBinding="{Binding Surname}"></GridViewColumn>
+                    <GridViewColumn Header="Имя" Width="100" DisplayMemberBinding="{Binding Name}"></GridViewColumn>
+                    <GridViewColumn Header="Отчество" Width="100" DisplayMemberBinding="{Binding Patronymic}"></GridViewColumn>
+                    <GridViewColumn Header="Номер телефона" Width="150" DisplayMemberBinding="{Binding PhoneNumber}"></GridViewColumn>
+                    <GridViewColumn Header="Номер паспорта" Width="100" DisplayMemberBinding="{Binding PassportID}"></GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <TextBlock Grid.Row="1"
+                   Text="Изменения:"
+                   FontSize="20"
+                   Margin="5"/>
+
+        <ListView x:Name="listViewChanges"
+                  Grid.Row="1"
+                  Margin="0,40,0,0">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Дата изменения" Width="150" DisplayMemberBinding="{Binding DateOfChange}"></GridViewColumn>
+                    <GridViewColumn Header="Имя клиента" Width="200" DisplayMemberBinding="{Binding NameOfChangedPerson}"></GridViewColumn>
+                    <GridViewColumn Header="Что изменено" Width="100" DisplayMemberBinding="{Binding TypeOfChangedData}"></GridViewColumn>
+                    <GridViewColumn Header="Как изменено" Width="200" DisplayMemberBinding="{Binding TypeOfChanges}"></GridViewColumn>
+                    <GridViewColumn Header="Кем изменено" Width="100" DisplayMemberBinding="{Binding WhoChanged}"></GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <Button x:Name="buttonChangeNumber"
+                Grid.Row="2"
+                Content="Изменить номер телефона"
+                Margin="20,12"
+                FontSize="20"
+                Width="400"
+                HorizontalAlignment="Left" 
+                Click="buttonChangeNumber_Click"/>
+        <Button x:Name="buttonChangeUser"
+                Grid.Row="2"
+                Content="Сменить пользователя"
+                Margin="20,12"
+                FontSize="20"
+                Width="300"
+                HorizontalAlignment="Right" 
+                Click="buttonChangeUser_Click"/>
+    </Grid>
+</Window>

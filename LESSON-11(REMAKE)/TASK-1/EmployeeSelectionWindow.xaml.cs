@@ -10,16 +10,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TASK_1.Employees.Consultant;
+using TASK_1.Employees.Manager;
 
 namespace TASK_1
 {
     /// <summary>
-    /// Логика взаимодействия для EmployeeSelection.xaml
+    /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    public partial class EmployeeSelection : Window
+    public partial class EmployeeSelectionWindow : Window
     {
-        public EmployeeSelection()
+        public EmployeeSelectionWindow()
         {
             InitializeComponent();
         }

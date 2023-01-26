@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9DF85F6E-E0F1-4CBD-B0CA-596F6ED0BC3E}</ProjectGuid>
+    <ProjectGuid>{46120B06-0D00-4B3A-8734-5AF9C00D695A}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>TASK_1</RootNamespace>
     <AssemblyName>TASK-1</AssemblyName>
@@ -36,7 +36,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime, Version=4.1.1.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.4.3.1\lib\net462\System.Runtime.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -55,59 +61,61 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="AddClientWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ChangeThePhoneNumber.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="DataChangeWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="EmployeeSelection.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ConsultantWindow.xaml">
+    <Page Include="EmployeeSelectionWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="AddClientLogic.cs" />
-    <Compile Include="AddClientWindow.xaml.cs">
-      <DependentUpon>AddClientWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Changes.cs" />
-    <Compile Include="ChangeThePhoneNumber.xaml.cs">
-      <DependentUpon>ChangeThePhoneNumber.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Consultant.cs" />
-    <Compile Include="DataChangeWindow.xaml.cs">
-      <DependentUpon>DataChangeWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="EmployeeSelection.xaml.cs">
-      <DependentUpon>EmployeeSelection.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="IConsultant.cs" />
-    <Compile Include="IManager.cs" />
-    <Compile Include="ConsultantWindow.xaml.cs">
-      <DependentUpon>ConsultantWindow.xaml</DependentUpon>
+    <Compile Include="Client.cs" />
+    <Compile Include="EmployeeSelectionWindow.xaml.cs">
+      <DependentUpon>EmployeeSelectionWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="ManagerWindow.xaml">
+    <Page Include="Employees\Consultant\ChangePhoneWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Employees\Consultant\ConsultantWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Employees\Manager\AddClientWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Employees\Manager\ChangeAnyDataWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Employees\Manager\ManagerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Manager.cs" />
-    <Compile Include="ManagerWindow.xaml.cs">
+    <Compile Include="Employees\Consultant\ChangePhone.cs" />
+    <Compile Include="Employees\Consultant\ChangePhoneWindow.xaml.cs">
+      <DependentUpon>ChangePhoneWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Employees\Consultant\ChangesHider.cs" />
+    <Compile Include="Employees\Consultant\Consultant.cs" />
+    <Compile Include="Employees\Consultant\ConsultantWindow.xaml.cs">
+      <DependentUpon>ConsultantWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Employees\Consultant\PassportHider.cs" />
+    <Compile Include="Employees\Manager\AddClient.cs" />
+    <Compile Include="Employees\Manager\AddClientWindow.xaml.cs">
+      <DependentUpon>AddClientWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Employees\Manager\ChangeAnyDataWindow.xaml.cs">
+      <DependentUpon>ChangeAnyDataWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Employees\Manager\Manager.cs" />
+    <Compile Include="Employees\Manager\ManagerWindow.xaml.cs">
       <DependentUpon>ManagerWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -127,6 +135,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -135,5 +144,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

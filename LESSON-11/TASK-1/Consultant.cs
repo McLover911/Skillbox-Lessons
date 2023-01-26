@@ -52,10 +52,10 @@ namespace TASK_1
             {
                 client = clients[i].Split('#');
 
-                listOfClients.Add(new Consultant(client[0], 
-                                                 client[1], 
-                                                 client[2], 
-                                                 long.Parse(client[3]), 
+                listOfClients.Add(new Consultant(client[0],
+                                                 client[1],
+                                                 client[2],
+                                                 long.Parse(client[3]),
                                                  client[4]));
             }
             return listOfClients;

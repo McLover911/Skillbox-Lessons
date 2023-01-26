@@ -11,10 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using System.IO;
-using System.Net.Http.Headers;
 
-namespace TASK_1
+namespace TASK_1.Employees.Manager
 {
     /// <summary>
     /// Логика взаимодействия для AddClientWindow.xaml
@@ -28,7 +26,7 @@ namespace TASK_1
 
         private void buttonToAdd_Click(object sender, RoutedEventArgs e)
         {
-            AddClientLogic addClientLogic = new AddClientLogic();
+            AddClient addClient = new AddClient();
 
             string[] enteredData =
             {
@@ -39,7 +37,7 @@ namespace TASK_1
                 textBoxPassportID.Text
             };
 
-            addClientLogic.checkAndSaveNewClient(enteredData, this);
+            addClient.ValidationAndSaving(enteredData, this);
         }
 
         private void buttonCancel_Click(object sender, RoutedEventArgs e)
